@@ -7,9 +7,9 @@ import java.util.Queue;
 
 public class BinarySearchTree<K, V> implements Tree<K, V> {
 
-	private int size;
-	private TreeNode<K, V> root;
-	private final Comparator<? super K> comparator;
+	protected int size;
+	protected TreeNode<K, V> root;
+	protected final Comparator<? super K> comparator;
 
 	public BinarySearchTree() {
 		this(null);
@@ -59,9 +59,6 @@ public class BinarySearchTree<K, V> implements Tree<K, V> {
 	public V get(K key) {
 		if (key == null)
 			throw new NullPointerException();
-
-		if (root == null)
-			return null;
 
 		TreeNode<K, V> find;
 		if (comparator != null) {
@@ -188,10 +185,13 @@ public class BinarySearchTree<K, V> implements Tree<K, V> {
 	}
 
 	private TreeNode<K, V> getNodeUsingComparator(K key, Comparator<? super K> comparator) {
+		if (root == null)
+			return null;
+
 		if (comparator != null) {
 			int comp;
 			TreeNode<K, V> p = root;
-			while (p != null) {
+			while (true) {
 				comp = comparator.compare(key, p.key);
 				if (comp < 0) {
 					if (p.left == null)
@@ -212,10 +212,13 @@ public class BinarySearchTree<K, V> implements Tree<K, V> {
 	}
 
 	private TreeNode<K, V> getNodeUsingComparable(K key) {
+		if (root == null)
+			return null;
+
 		Comparable<? super K> compKey = (Comparable<? super K>) key;
 		int comp;
 		TreeNode<K, V> p = root;
-		while (p != null) {
+		while (true) {
 			comp = compKey.compareTo(p.key);
 			if (comp < 0) {
 				if (p.left == null)
@@ -231,7 +234,6 @@ public class BinarySearchTree<K, V> implements Tree<K, V> {
 				return p;
 			}
 		}
-		return null;
 	}
 
 	@Override
@@ -299,16 +301,13 @@ public class BinarySearchTree<K, V> implements Tree<K, V> {
 		}
 	}
 
-	private static class TreeNode<K, V> {
-		K key;
-		V value;
+	protected static class TreeNode<K, V> extends Entry<K, V> {
 		TreeNode<K, V> parent;
 		TreeNode<K, V> left;
 		TreeNode<K, V> right;
 
-		TreeNode(K key, V value) {
-			this.key = key;
-			this.value = value;
+		public TreeNode(K key, V value) {
+			super(key, value);
 		}
 
 		void setLeft(TreeNode<K, V> child) {
