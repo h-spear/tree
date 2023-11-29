@@ -7,7 +7,6 @@ import java.util.Queue;
 
 public class BinarySearchTree<K, V> implements Tree<K, V> {
 
-
 	private int size;
 	private TreeNode<K, V> root;
 	private final Comparator<? super K> comparator;
