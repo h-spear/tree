@@ -33,7 +33,7 @@ public class BinarySearchTreeTest {
 	}
 
 	@Test
-	@DisplayName("원소 삽입 연산 후에 올바른 Traversal 결과를 제공한다.")
+	@DisplayName("이진탐색트리: 원소 삽입 연산 후에 올바른 Traversal 결과를 제공한다.")
 	void addTest() throws Exception {
 		// given: beforeEach에서 원소 삽입
 
@@ -51,7 +51,7 @@ public class BinarySearchTreeTest {
 	}
 
 	@Test
-	@DisplayName("원소 삽입 시 이미 존재하는 key로 삽입하는 경우 원소를 삽입하지 않는다.")
+	@DisplayName("이진탐색트리: 원소 삽입 시 이미 존재하는 key로 삽입하는 경우 원소를 삽입하지 않는다.")
 	void addTest2() throws Exception {
 		// given: beforeEach에서 원소 삽입
 
@@ -68,11 +68,11 @@ public class BinarySearchTreeTest {
 	}
 
 	@Test
-	@DisplayName("원소 삭제 연산 후에 올바른 Traversal 결과를 제공한다.")
+	@DisplayName("이진탐색트리: 원소 삭제 연산 후에 올바른 Traversal 결과를 제공한다.")
 	void removeTest() throws Exception {
 		// when
 		int keyForRemove = 30;
-		tree.remove(keyForRemove);
+		String result = tree.remove(keyForRemove);
 
 		// then
 		List<Integer> preorderResult = tree.preorder().stream().map(Tree.Entry::getKey).toList();
@@ -81,6 +81,7 @@ public class BinarySearchTreeTest {
 		List<Integer> levelOrderResult = tree.levelOrder().stream().map(Tree.Entry::getKey).toList();
 
 		assertThat(tree.size()).isEqualTo(9);
+		assertThat(result).isEqualTo(CardinalNumber._30);
 		assertThat(preorderResult).containsExactly(50, 40, 20, 10, 70, 60, 80, 90, 100);
 		assertThat(inorderResult).containsExactly(10, 20, 40, 50, 60, 70, 80, 90, 100);
 		assertThat(postorderResult).containsExactly(10, 20, 40, 60, 100, 90, 80, 70, 50);
@@ -88,7 +89,7 @@ public class BinarySearchTreeTest {
 	}
 
 	@Test
-	@DisplayName("원소 삭제 시 존재하지 않는 key를 사용하면 삭제 연산을 수행하지 않고, null을 반환한다.")
+	@DisplayName("이진탐색트리: 원소 삭제 시 존재하지 않는 key를 사용하면 삭제 연산을 수행하지 않고, null을 반환한다.")
 	void removeTest2() throws Exception {
 		// when
 		int keyForRemove = 33;
@@ -100,7 +101,7 @@ public class BinarySearchTreeTest {
 	}
 
 	@Test
-	@DisplayName("원소 조회 연산에 대해 올바른 결과를 제공한다.")
+	@DisplayName("이진탐색트리: 원소 조회 연산에 대해 올바른 결과를 제공한다.")
 	void getTest() throws Exception {
 		// when
 		String result1 = tree.get(30);
@@ -114,7 +115,7 @@ public class BinarySearchTreeTest {
 	}
 
 	@Test
-	@DisplayName("원소 조회 연산 시 존재하지 않는 key로 조회하면 null을 반환한다.")
+	@DisplayName("이진탐색트리: 원소 조회 연산 시 존재하지 않는 key로 조회하면 null을 반환한다.")
 	void getTest2() throws Exception {
 		// when
 		String result1 = tree.get(33);
@@ -126,7 +127,7 @@ public class BinarySearchTreeTest {
 	}
 
 	@Test
-	@DisplayName("원소 존재 여부 연산에 대해 올바른 결과를 제공한다.")
+	@DisplayName("이진탐색트리: 원소 존재 여부 연산에 대해 올바른 결과를 제공한다.")
 	void containsTest() throws Exception {
 		// when
 		boolean result1 = tree.contains(33);
@@ -138,7 +139,7 @@ public class BinarySearchTreeTest {
 	}
 
 	@Test
-	@DisplayName("연산 수행 시 null을 key로 제공하면 NullPointerException이 발생한다.")
+	@DisplayName("이진탐색트리: 연산 수행 시 null을 key로 제공하면 NullPointerException이 발생한다.")
 	void nullPointerTest() throws Exception {
 		// add
 		assertThatThrownBy(() -> tree.add(null, "null"))
@@ -155,5 +156,37 @@ public class BinarySearchTreeTest {
 		// get
 		assertThatThrownBy(() -> tree.get(null))
 			.isInstanceOf(NullPointerException.class);
+	}
+
+	@Test
+	@DisplayName("이진탐색트리: Comparator를 사용하여 생성한 트리에 대해 올바른 Traversal 결과를 제공한다.")
+	void comparatorTest() throws Exception {
+	    // given: 내림차순 트리
+		Tree<Integer, String> comparatorTree = new BinarySearchTree<>(
+			(o1, o2) -> Integer.compare(o2, o1));
+
+	    // when
+		comparatorTree.add(50, CardinalNumber._50);
+		comparatorTree.add(30, CardinalNumber._30);
+		comparatorTree.add(70, CardinalNumber._70);
+		comparatorTree.add(20, CardinalNumber._20);
+		comparatorTree.add(40, CardinalNumber._40);
+		comparatorTree.add(60, CardinalNumber._60);
+		comparatorTree.add(80, CardinalNumber._80);
+		comparatorTree.add(90, CardinalNumber._90);
+		comparatorTree.add(100, CardinalNumber._100);
+		comparatorTree.add(10, CardinalNumber._10);
+
+		// then
+		List<Integer> preorderResult = comparatorTree.preorder().stream().map(Tree.Entry::getKey).toList();
+		List<Integer> inorderResult = comparatorTree.inorder().stream().map(Tree.Entry::getKey).toList();
+		List<Integer> postorderResult = comparatorTree.postorder().stream().map(Tree.Entry::getKey).toList();
+		List<Integer> levelOrderResult = comparatorTree.levelOrder().stream().map(Tree.Entry::getKey).toList();
+
+		assertThat(tree.size()).isEqualTo(10);
+		assertThat(preorderResult).containsExactly(50, 70, 80, 90, 100, 60, 30, 40, 20, 10);
+		assertThat(inorderResult).containsExactly(100, 90, 80, 70, 60, 50, 40, 30, 20, 10);
+		assertThat(postorderResult).containsExactly(100, 90, 80, 60, 70, 40, 10, 20, 30, 50);
+		assertThat(levelOrderResult).containsExactly(50, 70, 30, 80, 60, 40, 20, 90, 10, 100);
 	}
 }
