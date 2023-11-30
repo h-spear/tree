@@ -56,9 +56,9 @@ public class AVLTree<K, V> extends BinarySearchTree<K, V> {
 
 		int comp = comparator.compare(key, node.key);
 		if (comp < 0) {
-			node.left = addUsingComparator(node.left, key, value, comparator);
+			node.setLeft(addUsingComparator(node.left, key, value, comparator));
 		} else if (comp > 0) {
-			node.right = addUsingComparator(node.right, key, value, comparator);
+			node.setRight(addUsingComparator(node.right, key, value, comparator));
 		} else {
 			return node;
 		}
@@ -76,9 +76,9 @@ public class AVLTree<K, V> extends BinarySearchTree<K, V> {
 		Comparable<? super K> compKey = (Comparable<? super K>) key;
 		int comp = compKey.compareTo(node.key);
 		if (comp < 0) {
-			node.left = addUsingComparable(node.left, key, value);
+			node.setLeft(addUsingComparable(node.left, key, value));
 		} else if (comp > 0) {
-			node.right = addUsingComparable(node.right, key, value);
+			node.setRight(addUsingComparable(node.right, key, value));
 		} else {
 			return node;
 		}
@@ -128,9 +128,9 @@ public class AVLTree<K, V> extends BinarySearchTree<K, V> {
 
 		int comp = comparator.compare(key, node.key);
 		if (comp < 0) {
-			node.left = deleteUsingComparator(node.left, key, comparator);
+			node.setLeft(deleteUsingComparator(node.left, key, comparator));
 		} else if (comp > 0) {
-			node.right = deleteUsingComparator(node.right, key, comparator);
+			node.setRight(deleteUsingComparator(node.right, key, comparator));
 		} else {
 			if (node.left == null && node.right == null) {
 				node = null;
@@ -139,7 +139,7 @@ public class AVLTree<K, V> extends BinarySearchTree<K, V> {
 					TreeNode<K, V> target = findMaxNode(node.left);
 					node.key = target.key;
 					node.value = target.value;
-					node.left = deleteUsingComparator(node.left, target.key, comparator);
+					node.setLeft(deleteUsingComparator(node.left, target.key, comparator));
 				} else {
 					node = node.right;
 				}
@@ -163,9 +163,9 @@ public class AVLTree<K, V> extends BinarySearchTree<K, V> {
 		Comparable<? super K> compKey = (Comparable<? super K>) key;
 		int comp = compKey.compareTo(node.key);
 		if (comp < 0) {
-			node.left = deleteUsingComparable(node.left, key);
+			node.setLeft(deleteUsingComparable(node.left, key));
 		} else if (comp > 0) {
-			node.right = deleteUsingComparable(node.right, key);
+			node.setRight(deleteUsingComparable(node.right, key));
 		} else {
 			if (node.left == null && node.right == null) {
 				node = null;
@@ -174,7 +174,7 @@ public class AVLTree<K, V> extends BinarySearchTree<K, V> {
 					TreeNode<K, V> target = findMaxNode(node.left);
 					node.key = target.key;
 					node.value = target.value;
-					node.left = deleteUsingComparable(node.left, target.key);
+					node.setLeft(deleteUsingComparable(node.left, target.key));
 				} else {
 					node = node.right;
 				}
@@ -203,13 +203,13 @@ public class AVLTree<K, V> extends BinarySearchTree<K, V> {
 
 		// LR
 		if (balance > 1 && comparator.compare(key, node.left.key) > 0) {
-			node.left = leftRotate(node.left);
+			node.setLeft(leftRotate(node.left));
 			return rightRotate(node);
 		}
 
 		// RL
 		if (balance < -1 && comparator.compare(key, node.right.key) < 0) {
-			node.right = rightRotate(node.right);
+			node.setRight(rightRotate(node.right));
 			return leftRotate(node);
 		}
 		return node;
@@ -230,13 +230,13 @@ public class AVLTree<K, V> extends BinarySearchTree<K, V> {
 
 		// LR
 		if (balance > 1 && compKey.compareTo(node.left.key) > 0) {
-			node.left = leftRotate(node.left);
+			node.setLeft(leftRotate(node.left));
 			return rightRotate(node);
 		}
 
 		// RL
 		if (balance < -1 && compKey.compareTo(node.right.key) < 0) {
-			node.right = rightRotate(node.right);
+			node.setRight(rightRotate(node.right));
 			return leftRotate(node);
 		}
 		return node;
@@ -260,8 +260,8 @@ public class AVLTree<K, V> extends BinarySearchTree<K, V> {
 		TreeNode<K, V> newParentNode = parentNode.right;
 		TreeNode<K, V> T2 = newParentNode.left;
 
-		newParentNode.left = parentNode;
-		parentNode.right = T2;
+		newParentNode.setLeft(parentNode);
+		parentNode.setRight(T2);
 
 		heightUpdate(parentNode);
 		heightUpdate(newParentNode);
@@ -273,8 +273,8 @@ public class AVLTree<K, V> extends BinarySearchTree<K, V> {
 		TreeNode<K, V> newParentNode = parentNode.left;
 		TreeNode<K, V> T2 = newParentNode.right;
 
-		newParentNode.right = parentNode;
-		parentNode.left = T2;
+		newParentNode.setRight(parentNode);
+		parentNode.setLeft(T2);
 
 		heightUpdate(parentNode);
 		heightUpdate(newParentNode);
