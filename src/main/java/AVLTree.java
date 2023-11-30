@@ -297,7 +297,7 @@ public class AVLTree<K, V> extends BinarySearchTree<K, V> {
 	private static class AVLTreeNode<K, V> extends TreeNode<K, V> {
 		int height;
 
-		public AVLTreeNode(K key, V value) {
+		AVLTreeNode(K key, V value) {
 			super(key, value);
 			this.height = 0;
 		}

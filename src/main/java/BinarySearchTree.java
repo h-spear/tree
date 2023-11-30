@@ -267,7 +267,7 @@ public class BinarySearchTree<K, V> implements Tree<K, V> {
 	private void traversePreorder(TreeNode<K, V> node, List<Entry<K, V>> result) {
 		if (node == null)
 			return;
-		result.add(new Entry<>(node.key, node.value));
+		result.add(node);
 		traversePreorder(node.left, result);
 		traversePreorder(node.right, result);
 	}
@@ -276,7 +276,7 @@ public class BinarySearchTree<K, V> implements Tree<K, V> {
 		if (node == null)
 			return;
 		traverseInorder(node.left, result);
-		result.add(new Entry<>(node.key, node.value));
+		result.add(node);
 		traverseInorder(node.right, result);
 	}
 
@@ -285,7 +285,7 @@ public class BinarySearchTree<K, V> implements Tree<K, V> {
 			return;
 		traversePostorder(node.left, result);
 		traversePostorder(node.right, result);
-		result.add(new Entry<>(node.key, node.value));
+		result.add(node);
 	}
 
 	private void traverseLevelOrder(TreeNode<K, V> node, List<Entry<K, V>> result) {
@@ -293,7 +293,7 @@ public class BinarySearchTree<K, V> implements Tree<K, V> {
 		queue.add(node);
 		while (!queue.isEmpty()) {
 			TreeNode<K, V> curr = queue.poll();
-			result.add(new Entry<>(curr.key, curr.value));
+			result.add(curr);
 			if (curr.left != null)
 				queue.add(curr.left);
 			if (curr.right != null)
@@ -301,13 +301,26 @@ public class BinarySearchTree<K, V> implements Tree<K, V> {
 		}
 	}
 
-	protected static class TreeNode<K, V> extends Entry<K, V> {
+	protected static class TreeNode<K, V> implements Entry<K, V> {
+		K key;
+		V value;
 		TreeNode<K, V> parent;
 		TreeNode<K, V> left;
 		TreeNode<K, V> right;
 
-		public TreeNode(K key, V value) {
-			super(key, value);
+		TreeNode(K key, V value) {
+			this.key = key;
+			this.value = value;
+		}
+
+		@Override
+		public K getKey() {
+			return key;
+		}
+
+		@Override
+		public V getValue() {
+			return value;
 		}
 
 		void setLeft(TreeNode<K, V> child) {
