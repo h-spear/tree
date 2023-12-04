@@ -66,7 +66,9 @@ public class BinarySearchTree<K, V> implements Tree<K, V> {
 		} else {
 			find = getNodeUsingComparable(key);
 		}
-		return Objects.equals(Objects.requireNonNull(find).key, key) ? find.value : null;
+		if (find == null)
+			return null;
+		return Objects.equals(find.key, key) ? find.value : null;
 	}
 
 	@Override

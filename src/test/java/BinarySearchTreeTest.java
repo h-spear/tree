@@ -82,6 +82,7 @@ public class BinarySearchTreeTest {
 
 		assertThat(tree.size()).isEqualTo(9);
 		assertThat(result).isEqualTo(CardinalNumber._30);
+		assertThat(tree.contains(keyForRemove)).isFalse();
 		assertThat(preorderResult).containsExactly(50, 40, 20, 10, 70, 60, 80, 90, 100);
 		assertThat(inorderResult).containsExactly(10, 20, 40, 50, 60, 70, 80, 90, 100);
 		assertThat(postorderResult).containsExactly(10, 20, 40, 60, 100, 90, 80, 70, 50);
