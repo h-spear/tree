@@ -28,9 +28,9 @@ public class AVLTree<K, V> extends BinarySearchTree<K, V> {
 	public V remove(K key) {
 		V oldValue = get(key);
 		if (comparator != null) {
-			deleteUsingComparator(root, key, comparator);
+			root = deleteUsingComparator(root, key, comparator);
 		} else {
-			deleteUsingComparable(root, key);
+			root = deleteUsingComparable(root, key);
 		}
 		if (oldValue != null)
 			--size;
@@ -100,14 +100,7 @@ public class AVLTree<K, V> extends BinarySearchTree<K, V> {
 				}
 			}
 		}
-
-		if (node == null) {
-			return null;
-		}
-
-		heightUpdate(node);
-		int balance = getBalance(node);
-		return restructureUsingComparator(node, key, balance, comparator);
+		return node;
 	}
 
 	private TreeNode<K, V> deleteUsingComparable(TreeNode<K, V> node, K key) {
@@ -139,10 +132,7 @@ public class AVLTree<K, V> extends BinarySearchTree<K, V> {
 		if (node == null) {
 			return null;
 		}
-
-		heightUpdate(node);
-		int balance = getBalance(node);
-		return restructureUsingComparable(node, key, balance);
+		return node;
 	}
 
 	private TreeNode<K, V> restructureUsingComparator(TreeNode<K, V> node, K key, int balance, Comparator<? super K> comparator) {
