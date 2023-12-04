@@ -12,6 +12,11 @@ public class Treap<K, V> extends BinarySearchTree<K, V> {
 	}
 
 	@Override
+	public int size() {
+		return ((TreapNode<K, V>) root).size;
+	}
+
+	@Override
 	public boolean add(K key, V value) {
 		if (contains(key))
 			return false;
@@ -22,11 +27,6 @@ public class Treap<K, V> extends BinarySearchTree<K, V> {
 			root = addUsingComparable(root, new TreapNode<>(key, value));
 		}
 		return true;
-	}
-
-	@Override
-	public int size() {
-		return ((TreapNode<K, V>) root).size;
 	}
 
 	@Override
@@ -169,7 +169,7 @@ public class Treap<K, V> extends BinarySearchTree<K, V> {
 		TreeNode<K, V> first;
 		TreeNode<K, V> second;
 
-		public TreeNodePair(TreeNode<K, V> first, TreeNode<K, V> second) {
+		TreeNodePair(TreeNode<K, V> first, TreeNode<K, V> second) {
 			this.first = first;
 			this.second = second;
 		}

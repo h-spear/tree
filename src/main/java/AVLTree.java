@@ -25,18 +25,6 @@ public class AVLTree<K, V> extends BinarySearchTree<K, V> {
 	}
 
 	@Override
-	public V get(K key) {
-		if (key == null)
-			throw new NullPointerException();
-
-		if (comparator != null) {
-			return getUsingComparator(key, comparator);
-		} else {
-			return getUsingComparable(key);
-		}
-	}
-
-	@Override
 	public V remove(K key) {
 		V oldValue = get(key);
 		if (comparator != null) {
@@ -86,39 +74,6 @@ public class AVLTree<K, V> extends BinarySearchTree<K, V> {
 		heightUpdate(node);
 		int balance = getBalance(node);
 		return restructureUsingComparable(node, key, balance);
-	}
-
-	private V getUsingComparator(K key, Comparator<? super K> comparator) {
-		int comp;
-		TreeNode<K, V> p = root;
-		while (p != null) {
-			comp = comparator.compare(key, p.key);
-			if (comp < 0) {
-				p = p.left;
-			} else if (comp > 0) {
-				p = p.right;
-			} else {
-				return p.value;
-			}
-		}
-		return null;
-	}
-
-	private V getUsingComparable(K key) {
-		Comparable<? super K> compKey = (Comparable<? super K>) key;
-		int comp;
-		TreeNode<K, V> p = root;
-		while (p != null) {
-			comp = compKey.compareTo(p.key);
-			if (comp < 0) {
-				p = p.left;
-			} else if (comp > 0) {
-				p = p.right;
-			} else {
-				return p.value;
-			}
-		}
-		return null;
 	}
 
 	private TreeNode<K, V> deleteUsingComparator(TreeNode<K, V> node, K key, Comparator<? super K> comparator) {
